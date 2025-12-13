@@ -91,6 +91,20 @@ uv run jupyter notebook notebooks/react_agent_student.ipynb
 
 In the notebook, replace `"your-api-key-here"` with your Groq API key.
 
+### 7. Verify your setup (optional)
+
+Run the test script to check everything is working:
+
+```bash
+uv run python test_mcp_connection.py
+```
+
+This will verify:
+- MCP server is running and accessible
+- Required tools are available
+- Python script component is on the Grasshopper canvas
+- Groq API key is valid (if set)
+
 ## task_template.gh
 
 This Grasshopper file contains a pre-configured Python 3 Script component for the tutorial.

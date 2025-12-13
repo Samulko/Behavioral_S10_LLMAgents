@@ -200,7 +200,10 @@ Write-Host "     - Or run: uv run jupyter notebook notebooks/react_agent_student
 Write-Host ""
 Write-Host "  4. In the notebook, replace 'your-api-key-here' with your Groq key" -ForegroundColor White
 Write-Host ""
+Write-Host "  5. Test your setup (optional):" -ForegroundColor White
+Write-Host "     uv run python test_mcp_connection.py" -ForegroundColor Gray
+Write-Host ""
 Write-Host "Troubleshooting:" -ForegroundColor Yellow
 Write-Host "  - If Grasshopper doesn't see the plugin, restart Rhino" -ForegroundColor Gray
-Write-Host "  - Test MCP server: curl http://127.0.0.1:8089/mcp" -ForegroundColor Gray
+Write-Host "  - Run: uv run python test_mcp_connection.py" -ForegroundColor Gray
 Write-Host ""
