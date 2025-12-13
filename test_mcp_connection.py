@@ -16,6 +16,7 @@ Requirements:
 
 import sys
 import json
+import os
 
 # Check Python version
 if sys.version_info < (3, 10):
@@ -27,6 +28,13 @@ try:
 except ImportError:
     print("❌ httpx not installed. Run: uv sync")
     sys.exit(1)
+
+# Load .env file if present
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # dotenv not required, just nice to have
 
 MCP_URL = "http://127.0.0.1:8089/mcp"
 TIMEOUT = 10  # seconds
