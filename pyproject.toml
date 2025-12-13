@@ -1,0 +1,13 @@
+[project]
+name = "react-agent-tutorial"
+version = "0.1.0"
+description = "Teaching notebook for building ReAct agents with Grasshopper MCP"
+requires-python = ">=3.10"
+dependencies = [
+    "groq>=0.11.0",
+    "httpx>=0.27.0",
+    "jupyter>=1.0.0",
+]
+
+[tool.uv]
+dev-dependencies = []

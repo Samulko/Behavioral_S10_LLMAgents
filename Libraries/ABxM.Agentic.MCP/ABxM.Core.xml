@@ -1,0 +1,2063 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ABxM.Core</name>
+    </assembly>
+    <members>
+        <member name="T:ABxM.Core.AgentSystem.NamespaceDoc">
+            <summary>
+            The AgentSystem namespace contains fundamental types that define commonly-used value types and classes.
+            </summary>
+        </member>
+        <member name="T:ABxM.Core.AgentSystem.AgentSystemBase">
+            <summary>
+            The base class, from which all agent system classes are derived.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.AgentSystemBase.Agents">
+            <summary>
+            List of agents.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.AgentSystemBase.InitialAgents">
+            <summary>
+            A copy of the original agent configuration.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.AgentSystemBase._initialConfiguration">
+            <summary>
+            Flag indicating if the initial configuration has been captured.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.AgentSystemBase.CustomData">
+            <summary>
+            Dictionary for optional additional data.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.AgentSystemBase.StartCustomData">
+            <summary>
+            Dictionary for optional additional data at the start.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.AgentSystemBase.NewCustomData">
+            <summary>
+            Dictionary for optional additional data at the execute step.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.AgentSystemBase.IndexCounter">
+            <summary>
+            The number of indices in the agent system.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.AgentSystemBase.InitialConfiguration">
+            <summary>
+            Automatically captures the initial configuration if not already captured.
+            This method is called in Reset() if the child class has not already captured its agent list.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.AgentSystemBase.Reset">
+            <summary>
+            Method for resetting every agent in the list of agents.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.AgentSystemBase.PreExecute">
+            <summary>
+            Method for running the PreExecute method for every agent in the list of agents.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.AgentSystemBase.Execute">
+            <summary>
+            Method for running the Execute method for every agent in the list of agents.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.AgentSystemBase.PostExecute">
+            <summary>
+            Method for running the PostExecute method for every agent in the list of agents.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.AgentSystemBase.MultiThread_PreExecute">
+            <summary>
+            Executes the <c>PreExecute</c> method of each agent in the <c>Agents</c> using parallel loops.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.AgentSystemBase.MultiThread_Execute">
+            <summary>
+            Executes the <c>Execute</c> method of each agent in the <c>Agents</c> using parallel loops.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.AgentSystemBase.MultiThread_PostExecute">
+            <summary>
+            Executes the <c>PostExecute</c> method of each agent in the <c>Agents</c> using parallel loops.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.AgentSystemBase.GetDisplayGeometries">
+            <summary>
+            Method for collecting the DisplayGeometries. Needs to be overridden.
+            </summary>
+            <returns>Null. Needs to be overridden.</returns>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.AgentSystemBase.IsFinished">
+            <summary>
+            Whether the system has reached the finished state.
+            </summary>
+            <returns>Returns false. Override method in order to define a finished condition and return true once the system has reached it.</returns>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.AgentSystemBase.AddAgent(ABxM.Core.Agent.AgentBase)">
+            <summary>
+            Request to add a new agent to the system. The agent will only appear after the current iteration has completed.
+            </summary>
+            <param name="agent">The agent to be added to the system.</param>
+            <returns>The index of the added agent.</returns>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.AgentSystemBase.RemoveAgent(ABxM.Core.Agent.AgentBase)">
+            <summary>
+            Request to remove an agent from the system. The agent will only disappear after the current iteration has completed.
+            </summary>
+            <param name="agent">The agent to be removed from the system.</param>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.AgentSystemBase.AddAndRemoveAgents">
+            <summary>
+            Updates the <c>Agents</c> list by removing agents scheduled for removal and adding agents scheduled for addition.
+            </summary>
+            <remarks>
+            <para>
+            This method processes the <c>agentsToBeRemoved</c> and <c>agentsToBeAdded</c> collections to modify the main <c>Agents</c> list accordingly.
+            After the updates, it clears both the <c>agentsToBeRemoved</c> and <c>agentsToBeAdded</c> lists to reset their state for the next cycle.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:ABxM.Core.AgentSystem.BoidSystem">
+            <summary>
+            The BoidSystem class implementing Reynolds' force-based Cartesian boid agent system.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.BoidSystem.SurfEnvironment">
+            <summary>
+            The field that holds the surface environment for systems that populate a NURBS-surface.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.BoidSystem.TimeStep">
+            <summary>
+            The current time step of the system.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.BoidSystem.MaxSpeed">
+            <summary>
+            The maximum speed, i.e., length of displacement vector for the agents of the system.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.BoidSystem.MaxForce">
+            <summary>
+            The maximum force, i.e., size of each individual behaviour contributing to the displacement of the agents in the system.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.BoidSystem.DisplacementThreshold">
+            <summary>
+            The value defining when the system has converged.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.BoidSystem.TotalDisplacement">
+            <summary>
+            The field holding the sum of the displacements of all the agents.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.BoidSystem.#ctor">
+            <summary>
+            Constructs a new, empty instance of a boid agent system.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.BoidSystem.#ctor(System.Collections.Generic.List{ABxM.Core.Agent.Boid})">
+            <summary>
+            Constructs a new instance of a boid agent system from a list of agents.
+            </summary>
+            <param name="agents">The list of boid agents.</param>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.BoidSystem.Reset">
+            <summary>
+            Method for resetting the system.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.BoidSystem.Execute">
+            <summary>
+            Method for updating the system's state.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.BoidSystem.PostExecute">
+            <summary>
+            Method for running the PostExecute method for every agent in the list of agents.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.BoidSystem.GetDisplayGeometries">
+            <summary>
+            Method for collecting the geometry that should be displayed.
+            </summary>
+            <returns>Returns a list containing each boid's display geometry.</returns>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.BoidSystem.FindNeighbors(ABxM.Core.Agent.Boid,System.Double)">
+            <summary>
+            Method for finding the list of neighbors based on Euclidean, i.e., straight-line distance.
+            </summary>
+            <param name="agent">The agent to search from.</param>
+            <param name="distance">The double defining the search distance.</param>
+            <returns>Returns a list containing all neighboring agents within the search distance.</returns>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.BoidSystem.IsFinished">
+            <summary>
+            Method for determining if the agent system has finished.
+            </summary>
+            <returns>True if total displacement is smaller than displacement threshold, False otherwise.</returns>
+        </member>
+        <member name="T:ABxM.Core.AgentSystem.CartesianAgentSystem">
+            <summary>
+            The CartesianAgentSystem class for position-based agent systems.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.CartesianAgentSystem.VoronoiCells">
+            <summary>
+            The list of Voronoi cells associated with each agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.CartesianAgentSystem.diagram">
+            <summary>
+            The connectivity diagram, i.e. interaction topology, of the agent system.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.CartesianAgentSystem.CartesianEnvironment">
+            <summary>
+            The field to access the Cartesian environment of this agent system.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.CartesianAgentSystem.ComputeVoronoiCells">
+            <summary>
+            Boolean toggle to determine if Voronoi diagram should be computed for this system.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.CartesianAgentSystem.ComputeDelaunayConnectivity">
+            <summary>
+            Boolean toggle to determine if only the connectivity diagram should be computed for this system.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.CartesianAgentSystem.#ctor(System.Collections.Generic.List{ABxM.Core.Agent.CartesianAgent},ABxM.Core.Environments.CartesianEnvironment)">
+            <summary>
+            Construct a new cartesian agent system
+            </summary>
+            <param name="agents">The cartesian agents</param>
+            <param name="cartesianEnvironment">The cartesian environment</param>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.CartesianAgentSystem.#ctor(System.Collections.Generic.List{ABxM.Core.Agent.CartesianAgent},ABxM.Core.Environments.CartesianEnvironment,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Construct a new cartesian agent system
+            </summary>
+            <param name="agents">The cartesian agents</param>
+            <param name="cartesianEnvironment">The cartesian environment</param>
+            <param name="initData">The custom data dictionary.</param>s
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.CartesianAgentSystem.Reset">
+            <inheritdoc />
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.CartesianAgentSystem.PreExecute">
+            <inheritdoc />
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.CartesianAgentSystem.GetDisplayGeometries">
+            <summary>
+            Method for collecting the geometry that should be displayed.
+            </summary>+
+            <returns>Returns null. Needs to be overridden.</returns>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.CartesianAgentSystem.FindNeighbors(ABxM.Core.Agent.CartesianAgent,System.Double)">
+            <summary>
+            Find all agents that are within the given straight-line distance of the given agent
+            </summary>
+            <param name="agent">The agent to search from.</param>
+            <param name="distance">The search distance.</param>
+            <returns>Returns a list containing all neighboring agents within the search distance.</returns>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.CartesianAgentSystem.FindTopologicalNeighbors(ABxM.Core.Agent.CartesianAgent)">
+            <summary>
+            Find all agents that are topologically connected to a given agent
+            </summary>
+            <param name="agent">The agent to search from.</param>
+            <returns>Returns the list of topologically connected neighboring agents.</returns>
+        </member>
+        <member name="T:ABxM.Core.AgentSystem.MatrixAgentSystem3d">
+            <summary>
+            The MatrixAgent3d3d system class for discrete, grid-based agent systems in 3d.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.MatrixAgentSystem3d.MatrixEnvironment3d">
+            <summary>
+            The Matrix environment.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.MatrixAgentSystem3d.DisplacementThreshold">
+            <summary>
+            The value defining when the system has converged.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.MatrixAgentSystem3d.TotalDisplacement">
+            <summary>
+            The field holding the sum of the displacements of all the agents.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MatrixAgentSystem3d.#ctor">
+            <summary>
+            Constructs a new, empty instance of a MatrixAgent3d system.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MatrixAgentSystem3d.#ctor(System.Collections.Generic.List{ABxM.Core.Agent.MatrixAgent3d},ABxM.Core.Environments.MatrixEnvironment3d)">
+            <summary>
+            Construct a new MatrixAgent3d system.
+            </summary>
+            <param name="agents">The list of matrix agents.</param>
+            <param name="matrixEnvironment3d">The matrix environment.</param>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MatrixAgentSystem3d.Reset">
+            <inheritdoc />
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MatrixAgentSystem3d.PostExecute">
+            <inheritdoc />
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MatrixAgentSystem3d.MooreNeighborhood(ABxM.Core.Agent.MatrixAgent3d)">
+            <summary>
+            Find the agents in the Moore neighbourhood of the given agent
+            </summary>
+            <param name="thisagent">The agent to search from.</param>
+            <returns>Returns a list containing all neighboring agents within a distance of one unit.</returns>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MatrixAgentSystem3d.IsFinished">
+            <summary>
+            Method for determining if the agent system has finished.
+            </summary>
+            <returns>True if total displacement is smaller than displacement threshold, False otherwise.</returns>
+        </member>
+        <member name="T:ABxM.Core.AgentSystem.MatrixAgentSystem">
+            <summary>
+            The MatrixAgent system class for discrete, grid-based agent systems.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.MatrixAgentSystem.MatrixEnvironment">
+            <summary>
+            The Matrix environment.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.MatrixAgentSystem.DisplacementThreshold">
+            <summary>
+            The value defining when the system has converged.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.MatrixAgentSystem.TotalDisplacement">
+            <summary>
+            The field holding the sum of the displacements of all the agents.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MatrixAgentSystem.#ctor">
+            <summary>
+            Constructs a new, empty instance of a MatrixAgent system.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MatrixAgentSystem.#ctor(System.Collections.Generic.List{ABxM.Core.Agent.MatrixAgent},ABxM.Core.Environments.MatrixEnvironment)">
+            <summary>
+            Construct a new MatrixAgent system.
+            </summary>
+            <param name="agents">The list of matrix agents.</param>
+            <param name="matrixEnvironment">The matrix environment.</param>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MatrixAgentSystem.Reset">
+            <inheritdoc />
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MatrixAgentSystem.PostExecute">
+            <inheritdoc />
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MatrixAgentSystem.MooreNeighborhood(ABxM.Core.Agent.MatrixAgent)">
+            <summary>
+            Find the agents in the Von Neumann neighbourhood of the given agent
+            </summary>
+            <param name="thisagent">The agent to search from.</param>
+            <returns>Returns a list containing all neighboring agents within a distance of one unit.</returns>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MatrixAgentSystem.IsFinished">
+            <summary>
+            Method for determining if the agent system has finished.
+            </summary>
+            <returns>True if total displacement is smaller than displacement threshold, False otherwise.</returns>
+        </member>
+        <member name="T:ABxM.Core.AgentSystem.MeshAgentSystem">
+            <summary>
+            The MeshFaceSystem class for mesh face-based, discrete agent systems.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.MeshAgentSystem.MeshEnvironment">
+            <summary>
+            The Mesh environment.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MeshAgentSystem.#ctor">
+            <summary>
+            Constructs a new, empty instance of a MeshAgent system.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MeshAgentSystem.#ctor(System.Collections.Generic.List{ABxM.Core.Agent.MeshFaceAgent},ABxM.Core.Environments.MeshEnvironment)">
+            <summary>
+            Construct a new mesh agent system.
+            </summary>
+            <param name="agents">The list of mesh face agents.</param>
+            <param name="meshEnvironment">The mesh environment.</param>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MeshAgentSystem.#ctor(System.Collections.Generic.List{ABxM.Core.Agent.MeshFaceAgent},ABxM.Core.Environments.MeshEnvironment,System.Int32)">
+            <summary>
+            Construct a new mesh agent system.
+            </summary>
+            <param name="agents">The list of mesh face agents</param>
+            <param name="meshEnvironment">The mesh environment.</param>
+            <param name="neighborhoodType">Integer indicating the neighborhood type. 0 = None, 1 = von Neumann, 2 = Moore, 3 = Manhattan2.</param>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MeshAgentSystem.Reset">
+            <inheritdoc />
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MeshAgentSystem.InitNeumannNeighborhood">
+            <summary>
+            Method to initialize a "von Neumann" neighborhood 
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MeshAgentSystem.InitMooreNeighborhood">
+            <summary>
+            Method to initialize a "Moore" neighborhood 
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.MeshAgentSystem.InitManhattan2Neighborhood">
+            <summary>
+            Method to initialize a "Manhattan2" neighborhood 
+            </summary>
+        </member>
+        <member name="T:ABxM.Core.AgentSystem.NetworkAgentSystem">
+            <summary>
+            The NetworkAgentSystem class for discrete agent systems with network topology.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.AgentSystem.NetworkAgentSystem.NetworkEnvironment">
+            <summary>
+            The field to access the Cartesian environment of this agent system.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.NetworkAgentSystem.#ctor">
+            <summary>
+            Constructs a new, empty instance of a NetworkAgent system.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.NetworkAgentSystem.#ctor(System.Collections.Generic.List{ABxM.Core.Agent.NetworkNodeAgent},ABxM.Core.Environments.NetworkEnvironment)">
+            <summary>
+            Construct a new network agent system
+            </summary>
+            <param name="agents">The list of network node agents.</param>
+            <param name="networkEnvironment">The network environment.</param>
+        </member>
+        <member name="M:ABxM.Core.AgentSystem.NetworkAgentSystem.Reset">
+            <inheritdoc />
+        </member>
+        <member name="T:ABxM.Core.Agent.NamespaceDoc">
+            <summary>
+            The Agent namespace contains fundamental types that define commonly-used value types and classes.
+            </summary>
+        </member>
+        <member name="T:ABxM.Core.Agent.AgentBase">
+            <summary>
+            The base class, from which all agent classes are derived.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.AgentBase.Behaviors">
+            <summary>
+            List of Behaviours.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.AgentBase.AgentSystem">
+            <summary>
+            The agent system that the agent belongs to.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.AgentBase.CustomData">
+            <summary>
+            Dictionary for optional additional data.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.AgentBase.startCustomData">
+            <summary>
+            Dictionary for optional additional data at the start.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.AgentBase.NewCustomData">
+            <summary>
+            Dictionary for optional additional data at the execute step.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.AgentBase.Reset">
+            <summary>
+            Method for resetting the agent.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.AgentBase.PreExecute">
+            <summary>
+            Method for running code that should be pre-executed.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.AgentBase.Execute">
+            <summary>
+            Method for updating the agent's state.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.AgentBase.PostExecute">
+            <summary>
+            Method for running code that should be post-executed.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.AgentBase.GetDisplayGeometries">
+            <summary>
+            Method for collecting the geometry that should be displayed. Needs to be overridden.
+            </summary>
+            <returns>Null. Needs to be overridden.</returns>
+        </member>
+        <member name="P:ABxM.Core.Agent.AgentBase.Id">
+            <summary>
+            The ID of the agent, unique within the given system
+            </summary>
+        </member>
+        <member name="T:ABxM.Core.Agent.CartesianAgent">
+            <summary>
+            The Cartesian agent class for position-based agents.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.CartesianAgent.CurrentPlane">
+            <summary>
+            The current plane position of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.CartesianAgent.StartPlane">
+            <summary>
+            The starting plane of the agent.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Agent.CartesianAgent.Position">
+            <summary>
+            The position of the agent.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Agent.CartesianAgent.StartPosition">
+            <summary>
+            The start position of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.CartesianAgent.Moves">
+            <summary>
+            The List of vectors that add to the displacement.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.CartesianAgent.Weights">
+            <summary>
+            The list of weights of the individual displacements.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.CartesianAgent.Rotations">
+            <summary>
+            The list of rotation quaternions.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.CartesianAgent.RotationWeights">
+            <summary>
+            The list of weights for the individual rotations.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.CartesianAgent.NamedMoves">
+            <summary>
+            The list of named moves.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.CartesianAgent.NamedRotations">
+            <summary>
+            The list of named rotations.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.CartesianAgent.#ctor(Rhino.Geometry.Point3d,System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase})">
+            <summary>
+            Constructs a new instance of a Cartesian, i.e., plane-based agent.
+            </summary>
+            <param name="startPosition">The point defining the agent's start position.</param>
+            <param name="behaviors">The list of behaviors.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.CartesianAgent.#ctor(Rhino.Geometry.Point3d,System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase},System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Constructs a new instance of a Cartesian, i.e., plane-based agent.
+            </summary>
+            <param name="startPosition">The point defining the agent's start position.</param>
+            <param name="behaviors">The list of behaviors.</param>
+            <param name="initialData">The customData dictionary.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.CartesianAgent.#ctor(Rhino.Geometry.Plane,System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase})">
+            <summary>
+            Constructs a new instance of a Cartesian, i.e., plane-based agent.
+            </summary>
+            <param name="startPlane">The starting plane for the agent.</param>
+            <param name="behaviors">The list of behaviors.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.CartesianAgent.#ctor(Rhino.Geometry.Plane,System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase},System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Constructs a new instance of a Cartesian, i.e., plane-based agent with Custom Dictionary.
+            </summary>
+            <param name="startPlane">The starting plane for the agent.</param>
+            <param name="behaviors">The list of behaviors.</param>
+            <param name="initData">The custom data dictionary.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.CartesianAgent.Reset">
+            <summary>
+            Method for resetting the agent.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.CartesianAgent.PreExecute">
+            <summary>
+            Method for running code that should be pre-executed.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.CartesianAgent.Execute">
+            <summary>
+            Method for updating the agent's state.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.CartesianAgent.PostExecute">
+            <summary>
+            Method for running code that should be post-executed.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.CartesianAgent.GetDisplayGeometries">
+            <summary>
+            Method for collecting the geometry that should be displayed.
+            </summary>
+            <returns>Returns a list containing each agent's position.</returns>
+        </member>
+        <member name="M:ABxM.Core.Agent.CartesianAgent.AddMove(Rhino.Geometry.Vector3d)">
+            <summary>
+            Method for adding a Move vector to the Moves list.
+            </summary>
+            <param name="move">The Move vector to be added to the Moves list.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.CartesianAgent.AddMove(Rhino.Geometry.Vector3d,System.String)">
+            <summary>
+            Method for adding a Move vector to the Moves list.
+            </summary>
+            <param name="move">The Move vector to be added to the Moves list.</param>
+            <param name="behaviorName">The name of Behavior.</param>
+        </member>
+        <member name="T:ABxM.Core.Agent.Boid">
+            <summary>
+            The Boid class implementing Reynolds' force-based Cartesian boid agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.Boid.Position">
+            <summary>
+            The position of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.Boid.Velocity">
+            <summary>
+            The velocity of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.Boid.IsFixed">
+            <summary>
+            Gets or sets if an agent is fixed, i.e. an anchor.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.Boid.IsBeingDragged">
+            <summary>
+            Gets or sets if an agent is being dragged.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.Boid.IsNearest">
+            <summary>
+            Gets or sets if an agent is nearest.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.Boid.DesiredSeparationDistance">
+            <summary>
+            Gets or sets the desired separation distance of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.Boid.startPosition">
+            <summary>
+            Gets the start position of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.Boid.startVelocity">
+            <summary>
+            Gets the start velocity of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.Boid.startIsFixed">
+            <summary>
+            Gets if the angent is fixed at the start.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.Boid.Force">
+            <summary>
+            Gets the force vector that is applied to the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.Boid.NamedForces">
+            <summary>
+            Gets the list of force vector that is applied to the agent.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.Boid.#ctor(Rhino.Geometry.Point3d,Rhino.Geometry.Vector3d,System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase})">
+            <summary>
+            Constructs a new instance of a boid agent.
+            </summary>
+            <param name="position">The point defining the agent's initial position.</param>
+            <param name="velocity">The vector defining the agent's initial velocity.</param>
+            <param name="behaviors">The list of behaviors.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.Boid.#ctor(Rhino.Geometry.Point3d,Rhino.Geometry.Vector3d,System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase},System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Constructs a new instance of a boid agent.
+            </summary>
+            <param name="position">The point defining the agent's initial position.</param>
+            <param name="velocity">The vector defining the agent's initial velocity.</param>
+            <param name="behaviors">The list of behaviors.</param>
+            <param name="initialData">The customData dictionary.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.Boid.Reset">
+            <summary>
+            Method for resetting the agent.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.Boid.PreExecute">
+            <summary>
+            Method for running code that should be pre-executed.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.Boid.Execute">
+            <summary>
+            Method for updating the agent's state.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.Boid.PostExecute">
+            <summary>
+            Method for running code that should be post-executed.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Agent.Boid.InitialPosition">
+            <summary>
+            Gets the initial position property of the agent.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Agent.Boid.InitialVelocity">
+            <summary>
+            Gets the initial velocity property of the agent.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.Boid.GetDisplayGeometries">
+            <summary>
+            Method for collecting the geometry that should be displayed.
+            </summary>
+            <returns>Returns a list containing each boid's position and velocity.</returns>
+        </member>
+        <member name="M:ABxM.Core.Agent.Boid.AddForce(Rhino.Geometry.Vector3d)">
+            <summary>
+            Method for adding a force vector to the current force value.
+            </summary>
+            <param name="force">The force vector to be added to the current force.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.Boid.AddForce(Rhino.Geometry.Vector3d,System.String)">
+            <summary>
+            Method for adding a force vector to the current force value.
+            </summary>
+            <param name="force">The force vector to be added to the current force.</param>
+            <param name="behaviorName">The name of Behavior.</param>
+        </member>
+        <member name="T:ABxM.Core.Agent.MatrixAgent3d">
+            <summary>
+            The Matrix agent class for discrete agents on a grid.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MatrixAgent3d.InitialValue">
+            <summary>
+            Field that holds the initial value of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MatrixAgent3d.Value">
+            <summary>
+            Field that holds the current value of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MatrixAgent3d.NewValue">
+            <summary>
+            Field that holds the new value of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MatrixAgent3d.StartUVW">
+            <summary>
+            Field that holds the initial agent's UVW value on the grid.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MatrixAgent3d.UVW">
+            <summary>
+            Field that holds the agent's UVW value on the grid.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MatrixAgent3d.Moves">
+            <summary>
+            The List of moves that add to the displacement.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.MatrixAgent3d.#ctor(System.Double,System.Int32,System.Int32,System.Int32,System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase})">
+            <summary>
+            Constructs a new instance of a Matrix agent including initial value.
+            </summary>
+            <param name="initialValue">The double defining the agent's initial value.</param>
+            <param name="behaviors">The list of behaviors.</param>
+            <param name="u">The U index on the grid.</param>
+            <param name="v">The V index on the grid.</param>
+            <param name="w">The w index on the grid.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.MatrixAgent3d.#ctor(System.Int32,System.Int32,System.Int32,System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase})">
+            <summary>
+            Constructs a new instance of a Matrix agent.
+            </summary>
+            <param name="behaviors">The list of behaviors.</param>
+            <param name="u">The U index on the grid.</param>
+            <param name="v">The V index on the grid.</param>
+            <param name="w">The V index on the grid.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.MatrixAgent3d.#ctor(System.Int32,System.Int32,System.Int32,System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase},System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Constructs a new instance of a Matrix agent.
+            </summary>
+            <param name="behaviors">The list of behaviors.</param>
+            <param name="u">The U index on the grid.</param>
+            <param name="v">The V index on the grid.</param>
+            <param name="w">The V index on the grid.</param>
+            <param name="initialData">The customData dictionary.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.MatrixAgent3d.Reset">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Agent.MatrixAgent3d.PreExecute">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Agent.MatrixAgent3d.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Agent.MatrixAgent3d.PostExecute">
+            <inheritdoc/>
+        </member>
+        <member name="T:ABxM.Core.Agent.MatrixAgent">
+            <summary>
+            The Matrix agent class for discrete agents on a grid.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MatrixAgent.InitialValue">
+            <summary>
+            Field that holds the initial value of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MatrixAgent.Value">
+            <summary>
+            Field that holds the current value of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MatrixAgent.NewValue">
+            <summary>
+            Field that holds the new value of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MatrixAgent.StartUV">
+            <summary>
+            Field that holds the initial agent's UV value on the grid.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MatrixAgent.UV">
+            <summary>
+            Field that holds the agent's UV value on the grid.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MatrixAgent.Moves">
+            <summary>
+            The List of moves that add to the displacement.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.MatrixAgent.#ctor(System.Int32,System.Int32,System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase})">
+            <summary>
+            Constructs a new instance of a Matrix agent.
+            </summary>
+            <param name="behaviors">The list of behaviors.</param>
+            <param name="u">The U index on the grid.</param>
+            <param name="v">The V index on the grid.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.MatrixAgent.#ctor(System.Double,System.Int32,System.Int32,System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase})">
+            <summary>
+            Constructs a new instance of a Matrix agent including initial value.
+            </summary>
+            <param name="initialValue">The double defining the agent's initial value.</param>
+            <param name="behaviors">The list of behaviors.</param>
+            <param name="u">The U index on the grid.</param>
+            <param name="v">The V index on the grid.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.MatrixAgent.#ctor(System.Int32,System.Int32,System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase},System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Constructs a new instance of a Matrix agent.
+            </summary>
+            <param name="behaviors">The list of behaviors.</param>
+            <param name="u">The U index on the grid.</param>
+            <param name="v">The V index on the grid.</param>
+            <param name="initialData">The customData dictionary.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.MatrixAgent.Reset">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Agent.MatrixAgent.PreExecute">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Agent.MatrixAgent.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Agent.MatrixAgent.PostExecute">
+            <inheritdoc/>
+        </member>
+        <member name="T:ABxM.Core.Agent.MeshFaceAgent">
+            <summary>
+            The MeshFace agent class for mesh face-based, discrete agents.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MeshFaceAgent.InitialValue">
+            <summary>
+            Field that holds the initial value of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MeshFaceAgent.Value">
+            <summary>
+            Field that holds the current value of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MeshFaceAgent.NewValue">
+            <summary>
+            Field that holds the new value of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.MeshFaceAgent.NeighborIndices">
+            <summary>
+            The array that holds the indices of the neighboring agents.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.MeshFaceAgent.#ctor(System.Double,System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase})">
+            <summary>
+            Constructs a new instance of a discrete, face-based agent.
+            </summary>
+            <param name="initialValue">The double defining the agent's initial value.</param>
+            <param name="behaviors">The list of behaviors.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.MeshFaceAgent.#ctor(System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase},System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Constructs a new instance of a discrete, face-based agent.
+            </summary>
+            <param name="behaviors">The list of behaviors.</param>
+            <param name="initialData">The customData dictionary.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.MeshFaceAgent.Reset">
+            <summary>
+            Method for resetting the agent.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.MeshFaceAgent.PreExecute">
+            <summary>
+            Method for running code that should be pre-executed.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.MeshFaceAgent.Execute">
+            <summary>
+            Method for updating the agent's state.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.MeshFaceAgent.PostExecute">
+            <summary>
+            Method for running code that should be post-executed.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.MeshFaceAgent.GetDisplayGeometries">
+            <summary>
+            Method for collecting the geometry that should be displayed.
+            </summary>
+            <returns>Null. Needs to be overridden.</returns>
+        </member>
+        <member name="T:ABxM.Core.Agent.NetworkNodeAgent">
+            <summary>
+            The NetworkNodeAgent class for discrete agents with network topology.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.NetworkNodeAgent.InitialValue">
+            <summary>
+            Field that holds the initial value of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.NetworkNodeAgent.Value">
+            <summary>
+            Field that holds the current value of the agent.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Agent.NetworkNodeAgent.NewValue">
+            <summary>
+            Field that holds the new value of the agent.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.NetworkNodeAgent.#ctor(System.Double,System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase})">
+            <summary>
+            Constructs a new instance of a discrete, node-based agent.
+            </summary>
+            <param name="initialValue">The double defining the agent's initial value.</param>
+            <param name="behaviors">The list of behaviors.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.NetworkNodeAgent.#ctor(System.Collections.Generic.List{ABxM.Core.Behavior.BehaviorBase},System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Constructs a new instance of a discrete, node-based agent.
+            </summary>
+            <param name="behaviors">The list of behaviors.</param>
+            <param name="initialData">The customData dictionary.</param>
+        </member>
+        <member name="M:ABxM.Core.Agent.NetworkNodeAgent.Reset">
+            <summary>
+            Method for resetting the agent.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.NetworkNodeAgent.PreExecute">
+            <summary>
+            Method for running code that should be pre-executed.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.NetworkNodeAgent.Execute">
+            <summary>
+            Method for updating the agent's state.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.NetworkNodeAgent.PostExecute">
+            <summary>
+            Method for running code that should be post-executed.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Agent.NetworkNodeAgent.GetDisplayGeometries">
+            <summary>
+            Method for collecting the geometry that should be displayed.
+            </summary>
+            <returns>Null. Needs to be overridden.</returns>
+        </member>
+        <member name="T:ABxM.Core.Behavior.BoidAlignmentBehavior">
+            <summary>
+            The class implements Reynolds' force-based alignment behaviour.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Behavior.BoidAlignmentBehavior.Distance">
+            <summary>
+            The field that defines the distance within which the behavior is active.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Behavior.BoidAlignmentBehavior.#ctor(System.Double,System.Double)">
+            <summary>
+            Constructs a new instance of the alignment behavior.
+            </summary>
+            <param name="weight">The behavior's weight.</param>
+            <param name="distance">The distance within which the behavior is active.</param>
+        </member>
+        <member name="M:ABxM.Core.Behavior.BoidAlignmentBehavior.Execute(ABxM.Core.Agent.AgentBase)">
+            <summary>
+            Method for executing the behaviour's rule.
+            </summary>
+            <param name="agent">The agent that executes the behavior.</param>
+        </member>
+        <member name="T:ABxM.Core.Behavior.NamespaceDoc">
+            <summary>
+            The Behaviour namespace contains fundamental types that define commonly-used value types and classes.
+            </summary>
+        </member>
+        <member name="T:ABxM.Core.Behavior.BehaviorBase">
+            <summary>
+            The base class, from which all behaviour classes are derived.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Behavior.BehaviorBase.Solver">
+            <summary>
+            The field that provides access to the Solver.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Behavior.BehaviorBase.IsEnabled">
+            <summary>
+            Boolean toggle to enable/disable the behaviour.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Behavior.BehaviorBase.Weight">
+            <summary>
+            The weight, by which the behaviour contributes to the resultant agent behaviour.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Behavior.BehaviorBase.CustomData">
+            <summary>
+            Dictionary for optional additional data.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Behavior.BehaviorBase.Execute(ABxM.Core.Agent.AgentBase)">
+            <summary>
+            Method for executing the behaviour's rule. Needs to be overridden.
+            </summary>
+            <param name="agent">The agent that executes the behavior.</param>
+        </member>
+        <member name="T:ABxM.Core.Behavior.BoidCohesionBehavior">
+            <summary>
+            The class implements Reynolds' force-based cohesion behaviour.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Behavior.BoidCohesionBehavior.Distance">
+            <summary>
+            The field that defines the distance within which the behavior is active.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Behavior.BoidCohesionBehavior.#ctor(System.Double,System.Double)">
+            <summary>
+            Constructs a new instance of the Boid cohesion behavior.
+            </summary>
+            <param name="weight">The behavior's weight.</param>
+            <param name="distance">The distance within which the behavior is active.</param>
+        </member>
+        <member name="M:ABxM.Core.Behavior.BoidCohesionBehavior.Execute(ABxM.Core.Agent.AgentBase)">
+            <summary>
+            Method for executing the behaviour's rule.
+            </summary>
+            <param name="agent">The agent that executes the behavior.</param>
+        </member>
+        <member name="T:ABxM.Core.Behavior.BoidContainmentBehavior">
+            <summary>
+            The class implements Reynolds' force-based containment behaviour.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Behavior.BoidContainmentBehavior.Distance">
+            <summary>
+            The field that defines the distance within which the behavior is active.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Behavior.BoidContainmentBehavior.Power">
+            <summary>
+            The exponent that defines the rate of decay of the strength of the behavior. For example, gravity decays by the inverse square of the distance, i.e. by the power of 2.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Behavior.BoidContainmentBehavior.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            Constructs a new instance of the Boid containment behavior.
+            </summary>
+            <param name="weight">The behavior's weight.</param>
+            <param name="distance">The distance within which the behavior is active.</param>
+            <param name="power">The rate of decay of the strength of the behavior.</param>
+        </member>
+        <member name="M:ABxM.Core.Behavior.BoidContainmentBehavior.Execute(ABxM.Core.Agent.AgentBase)">
+            <summary>
+            Method for executing the behaviour's rule.
+            </summary>
+            <param name="agent">The agent that executes the behavior.</param>
+        </member>
+        <member name="T:ABxM.Core.Behavior.BoidSeparationBehavior">
+            <summary>
+            The class implements Reynolds' force-based separation behaviour.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Behavior.BoidSeparationBehavior.Distance">
+            <summary>
+            The field that defines the distance within which the behavior is active.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Behavior.BoidSeparationBehavior.Power">
+            <summary>
+            The exponent that defines the rate of decay of the strength of the behavior. For example, gravity decays by the inverse square of the distance, i.e. by the power of 2.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Behavior.BoidSeparationBehavior.AffectSelf">
+            <summary>
+            A Boolean toggle that defines if the behavior affects the agent or its neighbor. This should be set to true.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Behavior.BoidSeparationBehavior.#ctor(System.Double,System.Double,System.Double,System.Boolean)">
+            <summary>
+            Constructs a new instance of the Boid separation behavior.
+            </summary>
+            <param name="weight">The behavior's weight.</param>
+            <param name="distance">The distance within which the behavior is active.</param>
+            <param name="power">The rate of decay of the strength of the behavior.</param>
+            <param name="affectSelf">Boolean that defines if the behavior affects the agent itself or its neighbors.</param>
+        </member>
+        <member name="M:ABxM.Core.Behavior.BoidSeparationBehavior.Execute(ABxM.Core.Agent.AgentBase)">
+            <summary>
+            Method for executing the behaviour's rule.
+            </summary>
+            <param name="agent">The agent that executes the behavior.</param>
+        </member>
+        <member name="T:ABxM.Core.Environments.CartesianEnvironment">
+            <summary>
+            The class provides a boundary for Cartesian agent system.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.CartesianEnvironment.BoundaryCorners">
+            <summary>
+            The list of points that define the limits of a 2D Cartesian agent system.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.CartesianEnvironment.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d})">
+            <summary>
+            Constructs a new instance of the Cartesian environment class.
+            </summary>
+            <param name="boundaryCorners">The list of points that define the limits of the environment.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.CartesianEnvironment.Reset">
+            <summary>
+            Method for resetting the Cartesian environment.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.CartesianEnvironment.GetDisplayGeometry">
+            <summary>
+            Method for collecting the DisplayGeometries.
+            </summary>
+            <returns>Null. Needs to be overrridden.</returns>
+        </member>
+        <member name="T:ABxM.Core.Environments.NamespaceDoc">
+            <summary>
+            The Environments namespace contains fundamental types that define commonly-used value types and classes.
+            </summary>
+        </member>
+        <member name="T:ABxM.Core.Environments.EnvironmentBase">
+            <summary>
+            The base class, from which all environment classes are derived.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.EnvironmentBase.AgentSystems">
+            <summary>
+            List of agent systems that exist in the environment.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.EnvironmentBase.CustomData">
+            <summary>
+            Dictionary for optional additional data.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.EnvironmentBase.startCustomData">
+            <summary>
+            Dictionary for optional additional data at the start.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.EnvironmentBase.Reset">
+            <summary>
+            Method for resetting the environment.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.EnvironmentBase.GetDisplayGeometry">
+            <summary>
+            Method for collecting the DisplayGeometries. Needs to be overridden.
+            </summary>
+            <returns>Null. Needs to be overridden.</returns>
+        </member>
+        <member name="T:ABxM.Core.Environments.MatrixEnvironment3d">
+            <summary>
+            The class provides an environment for matrix-based agent systems.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MatrixEnvironment3d.NumCellsU">
+            <summary>
+            The number of cells in U direction.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MatrixEnvironment3d.NumCellsV">
+            <summary>
+            The number of cells in V direction.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MatrixEnvironment3d.NumCellsW">
+            <summary>
+            The number of cells in V direction.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MatrixEnvironment3d.Cells">
+            <summary>
+            List of Cells.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MatrixEnvironment3d.CellIsBlocked">
+            <summary>
+            List of participation booleans
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MatrixEnvironment3d.initialValues">
+            <summary>
+            List of initial values.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MatrixEnvironment3d.Position">
+            <summary>
+            Point describing environment zero coordinate in the global coordinate system.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MatrixEnvironment3d.CellDimensions">
+            <summary>
+            Array describing cell scale in three dimensions.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.MatrixEnvironment3d.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructs a new instance of the matrix environment class.
+            </summary>
+            <param name="numCellsU">The number of cells in U direction.</param>
+            <param name="numCellsV">The number of cells in V direction.</param>
+            <param name="numCellsW">The number of cells in W direction.</param>
+            
+        </member>
+        <member name="M:ABxM.Core.Environments.MatrixEnvironment3d.#ctor(System.Int32,System.Int32,System.Int32,System.Double[])">
+            <summary>
+            Constructs a new instance of the matrix environment class.
+            </summary>
+            <param name="numCellsU">The number of cells in U direction.</param>
+            <param name="numCellsV">The number of cells in V direction.</param>
+            <param name="numCellsW">The number of cells in V direction.</param>
+            <param name="values">List of values to assign to cells.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.MatrixEnvironment3d.#ctor(System.Int32,System.Int32,System.Int32,System.Collections.Generic.List{Rhino.Geometry.Brep},System.Boolean)">
+            <summary>
+            Constructs a new instance of the matrix environment class.
+            </summary>
+            <param name="numCellsU">The number of cells in U direction.</param>
+            <param name="numCellsV">The number of cells in V direction.</param>
+            <param name="numCellsW">The number of cells in V direction.</param>
+            <param name="envBreps">The breps which influence the environment boundaries.</param>
+            <param name="envBool">The boolean that flips the environment breps between subtracting and adding to the environment.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.MatrixEnvironment3d.#ctor(System.Int32,System.Int32,System.Int32,System.Collections.Generic.List{Rhino.Geometry.Brep},System.Boolean,System.Double[])">
+            <summary>
+            Constructs a new instance of the matrix environment class.
+            </summary>
+            <param name="numCellsU">The number of cells in U direction.</param>
+            <param name="numCellsV">The number of cells in V direction.</param>
+            <param name="numCellsW">The number of cells in V direction.</param>
+            <param name="envBreps">The breps which influence the environment boundaries.</param>
+            <param name="envBool">The boolean that flips the environment breps between subtracting and adding to the environment.</param>
+            <param name="values">List of values to assign to cells.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.MatrixEnvironment3d.Dimensions(Rhino.Geometry.BoundingBox)">
+            <summary>
+            Method for setting dimensions based on cell counts in each direction, and bounding box.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.MatrixEnvironment3d.Reset">
+            <summary>
+            Method for resetting the matrix environment.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.MatrixEnvironment3d.AdjacentUVWCells(System.Int32[])">
+            <summary>
+            find adjacent cell to current cell.
+            </summary>
+            <param name="uvw">The the tuple of u, v, and w indices.</param>
+        </member>
+        <member name="T:ABxM.Core.Environments.MatrixEnvironment">
+            <summary>
+            The class provides an environment for matrix-based agent systems.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MatrixEnvironment.NumCellsU">
+            <summary>
+            The number of cells in U direction.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MatrixEnvironment.NumCellsV">
+            <summary>
+            The number of cells in V direction.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MatrixEnvironment.Cells">
+            <summary>
+            List of Cells.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MatrixEnvironment.initialValues">
+            <summary>
+            List of initial values.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.MatrixEnvironment.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Constructs a new instance of the matrix environment class.
+            </summary>
+            <param name="numCellsU">The number of cells in U direction.</param>
+            <param name="numCellsV">The number of cells in V direction.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.MatrixEnvironment.#ctor(System.Int32,System.Int32,System.Double[])">
+            <summary>
+            Constructs a new instance of the matrix environment class.
+            </summary>
+            <param name="numCellsU">The number of cells in U direction.</param>
+            <param name="numCellsV">The number of cells in V direction.</param>
+            <param name="values">List of values to assign to cells.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.MatrixEnvironment.Reset">
+            <summary>
+            Method for resetting the matrix environment.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.MatrixEnvironment.AdjacentUVCells(System.Int32[],System.Boolean)">
+            <summary>
+            Find the eight adjacent cells to current cell.
+            </summary>
+            <param name="uv">The the tuple of u and v indices.</param>
+            <param name="wrapAround">Determines if the matrix should wrap around (donut).</param>
+            <returns>Returns the list of adjacent cells.</returns>
+        </member>
+        <member name="T:ABxM.Core.Environments.MeshEnvironment">
+            <summary>
+            The class provides the environment for mesh-based agent system.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MeshEnvironment.Mesh">
+            <summary>
+            The field that provides access to the Mesh of the environment.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MeshEnvironment.startMesh">
+            <summary>
+            Gets the start condition of the mesh.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.MeshEnvironment.#ctor">
+            <summary>
+            Constructs a new, empty instance of the mesh-based environment.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.MeshEnvironment.#ctor(Rhino.Geometry.Mesh)">
+            <summary>
+            Constructs a new mesh-based environment from an existing mesh.
+            </summary>
+            <param name="mesh">The mesh that defines the environment.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.MeshEnvironment.Reset">
+            <summary>
+            Method for resetting the mesh environment.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.MeshEnvironment.SetMesh(Rhino.Geometry.Mesh)">
+            <summary>
+            Method for setting the mesh of the environment. Q: Shouldn't this rather be done using a set-property?
+            </summary>
+            <param name="mesh">The mesh to be set as the environment's base mesh.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.MeshEnvironment.GetDisplayGeometry">
+            <summary>
+            Method for collecting the DisplayGeometries.
+            </summary>
+            <returns>The list of objects to be displayed.</returns>
+        </member>
+        <member name="M:ABxM.Core.Environments.MeshEnvironment.GetClosestPoint(Rhino.Geometry.Point3d)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Environments.MeshEnvironment.GetTangentPlane(Rhino.Geometry.Point3d)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Environments.MeshEnvironment.GetNormal(Rhino.Geometry.Point3d)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Environments.MeshEnvironment.IntersectWithLine(Rhino.Geometry.Line)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Environments.MeshEnvironment.GetBoundaryCurves3D">
+            <inheritdoc/>
+        </member>
+        <member name="T:ABxM.Core.Environments.MultiBrepEnvironment">
+            <summary>
+            The class provides the environment for agent systems on polysurfaces.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.MultiBrepEnvironment.BrepObjects">
+            <summary>
+            The list that holds the individual breps that define the environment.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.MultiBrepEnvironment.#ctor">
+            <summary>
+            Constructs a new, empty instance of the MultiBrepEnvironment class.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.MultiBrepEnvironment.#ctor(System.Collections.Generic.List{Rhino.Geometry.Brep})">
+            <summary>
+            Construct a new instance of the MultiBrepEnvironment class from a list of given breps.
+            </summary>
+            <param name="breps">The list of breps that define the environment.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.MultiBrepEnvironment.SetBreps(System.Collections.Generic.List{Rhino.Geometry.Brep})">
+            <summary>
+            Method for setting the breps of the environment. Q: Shouldn't this rather be done using a set-property?
+            </summary>
+            <param name="breps">The list of breps to be set as the environment's base breps.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.MultiBrepEnvironment.Reset">
+            <summary>
+            Method for resetting the environment.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.MultiBrepEnvironment.GetDisplayGeometry">
+            <summary>
+            Method for collecting the DisplayGeometries.
+            </summary>
+            <returns>The list of objects to be displayed.</returns>
+        </member>
+        <member name="M:ABxM.Core.Environments.MultiBrepEnvironment.GetClosestPoint(Rhino.Geometry.Point3d)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Environments.MultiBrepEnvironment.GetTangentPlane(Rhino.Geometry.Point3d)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Environments.MultiBrepEnvironment.GetNormal(Rhino.Geometry.Point3d)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Environments.MultiBrepEnvironment.IntersectWithLine(Rhino.Geometry.Line)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Environments.MultiBrepEnvironment.GetBoundaryCurves3D">
+            <inheritdoc/>
+        </member>
+        <member name="T:ABxM.Core.Environments.NetworkEnvironment">
+            <summary>
+            The class provides the environment for network topology-based agent systems.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.NetworkEnvironment.Nodes">
+            <summary>
+            List of nodes that constitute the network.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.NetworkEnvironment.Edges">
+            <summary>
+            List of index pairs that define the connections between nodes.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.NetworkEnvironment.NeighborNodeIndices">
+            <summary>
+            This field is a list of the lists that store the neighbors for each agent.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.NetworkEnvironment.#ctor">
+            <summary>
+            Constructs a new, empty instance of the network environment.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.NetworkEnvironment.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},System.Collections.Generic.List{Rhino.Geometry.Line},System.Double)">
+            <summary>
+            Constructs a new instance of a network environment based on a given network of points and lines.
+            </summary>
+            <param name="points">The list of points that defines the network's nodes.</param>
+            <param name="lines">The list of lines that describes the network's edges.</param>
+            <param name="threshold">The double defining the allowed threshold between line end points and nodes. Default is set to 0.01.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.NetworkEnvironment.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},System.Collections.Generic.List{Rhino.IndexPair})">
+            <summary>
+            Constructs a new instance of a network environment based on a given list of nodes and index pairs.
+            </summary>
+            <param name="nodes">The list of points that defines the network's nodes.</param>
+            <param name="edges">The list of index pairs describing the network's edges.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.NetworkEnvironment.FindNodeIndex(Rhino.Geometry.Point3d,System.Double)">
+            <summary>
+            A method for finding the node index of a given point using a threshold value.
+            </summary>
+            <param name="p">The test point.</param>
+            <param name="threshold">The threshold double.</param>
+            <returns>The node's index on success. Otherwise, -1.</returns>
+        </member>
+        <member name="M:ABxM.Core.Environments.NetworkEnvironment.Reset">
+            <summary>
+            Method for resetting the Network environment.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.NetworkEnvironment.GetDisplayGeometry">
+            <summary>
+            Method for collecting the DisplayGeometries.
+            </summary>
+            <returns>The list of objects to be displayed.</returns>
+        </member>
+        <member name="T:ABxM.Core.Environments.SingleBrepEnvironment">
+            <summary>
+            The class provides the environment for agent systems on (trimmed) surfaces.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.SingleBrepEnvironment.BrepObject">
+            <summary>
+            This field holds the brep
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.SingleBrepEnvironment.CurvatureNodes">
+            <summary>
+            The field that defines a 2D-array of curvature nodes, which are a custom structure defined in this class.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.SingleBrepEnvironment.#ctor">
+            <summary>
+            Constructs a new, empty instance of the single brep environment.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.SingleBrepEnvironment.#ctor(Rhino.Geometry.Brep,System.Double)">
+            <summary>
+            Constructs a new instance of the single brep environment based on a given brep and a spacing value for computing the curvature field.
+            </summary>
+            <param name="brep">The brep that defines the environment.</param>
+            <param name="spacing">The double defining the spacing of the environment's curvature field.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.SingleBrepEnvironment.SetBrep(Rhino.Geometry.Brep)">
+            <summary>
+            Method for setting the breps of the environment. Q: Shouldn't this rather be done using a set-property?
+            </summary>
+            <param name="brep">The brep to be set as the environment's base brep.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.SingleBrepEnvironment.ComputeCurvatureField(System.Double)">
+            <summary>
+            A method to compute a 2d-array of curvature values from the brep based on a given spacing parameter.
+            </summary>
+            <param name="spacing">The double defining the curvature field's spacing.</param>
+        </member>
+        <member name="M:ABxM.Core.Environments.SingleBrepEnvironment.Reset">
+            <summary>
+            Method for resetting the environment.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.SingleBrepEnvironment.GetDisplayGeometry">
+            <summary>
+            Method for collecting the DisplayGeometries.
+            </summary>
+            <returns>The list of objects to be displayed.</returns>
+        </member>
+        <member name="M:ABxM.Core.Environments.SingleBrepEnvironment.GetClosestPoint(Rhino.Geometry.Point3d)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Environments.SingleBrepEnvironment.GetNormal(Rhino.Geometry.Point3d)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Environments.SingleBrepEnvironment.GetTangentPlane(Rhino.Geometry.Point3d)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Environments.SingleBrepEnvironment.IntersectWithLine(Rhino.Geometry.Line)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Environments.SingleBrepEnvironment.BoundaryCurves2D">
+            <summary>
+            Method for getting the 2D boundary curves of the brep environment.
+            </summary>
+            <returns>Returns the list of curves that the define the 2D boundaries of the environment.</returns>
+        </member>
+        <member name="M:ABxM.Core.Environments.SingleBrepEnvironment.GetBoundaryCurves3D">
+            <inheritdoc/>
+        </member>
+        <member name="M:ABxM.Core.Environments.SingleBrepEnvironment.UVCoordinates(Rhino.Geometry.Point3d)">
+            <summary>
+            Method for getting the UV coordinates of the closest point on the brep for a given reference point, e.g. the position of the agent.
+            </summary>
+            <param name="position">The test point.</param>
+            <returns>Returns a Point3D composed of the UVW coordinates of the closest point to the test point on the environment.</returns>
+        </member>
+        <member name="T:ABxM.Core.Environments.CurvatureNode">
+            <summary>
+            A custom structure that holds the first and second derivate vectors and Rhino's SurfaceCurvature object.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.CurvatureNode.FirstDerivative">
+            <summary>
+            A 3D vector representing the direction of the slope (1st derivative).
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.CurvatureNode.SecondDerivative">
+            <summary>
+            A 3D vector representing the direction of the change of slope.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Environments.CurvatureNode.SurfaceCurvature">
+            <summary>
+            Rhino's SurfaceCurvature object.
+            </summary>
+        </member>
+        <member name="T:ABxM.Core.Environments.SurfaceEnvironment">
+            <summary>
+            The abstract class, from which SingleBrep, MultiBrep, and Mesh environments are derived.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.SurfaceEnvironment.#ctor">
+            <summary>
+            Constructs a new, empty instance of the SurfaceEnvironment class.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Environments.SurfaceEnvironment.GetClosestPoint(Rhino.Geometry.Point3d)">
+            <summary>
+            Method for getting the point on the environment that is closest to a reference point, e.g. the position of an agent.
+            </summary>
+            <param name="position">The test point.</param>
+            <returns>Returns the closest point to the test point on the environment.</returns>
+        </member>
+        <member name="M:ABxM.Core.Environments.SurfaceEnvironment.GetNormal(Rhino.Geometry.Point3d)">
+            <summary>
+            Method for getting the normal vector to the environment at the current position.
+            </summary>
+            <param name="position">The test point.</param>
+            <returns>Returns the test point's normal vector to the environment.</returns>
+        </member>
+        <member name="M:ABxM.Core.Environments.SurfaceEnvironment.GetTangentPlane(Rhino.Geometry.Point3d)">
+            <summary>
+            Method for getting the tangent plane to the environment at the current position.
+            </summary>
+            <param name="position">The test point.</param>
+            <returns>Returns the test point's tangent plane to the environment.</returns>
+        </member>
+        <member name="M:ABxM.Core.Environments.SurfaceEnvironment.IntersectWithLine(Rhino.Geometry.Line)">
+            <summary>
+            Method for checking if a given line intersects the environment.
+            </summary>
+            <param name="line">The test line.</param>
+            <returns>Returns the first intersection point.</returns>
+        </member>
+        <member name="M:ABxM.Core.Environments.SurfaceEnvironment.GetBoundaryCurves3D">
+            <summary>
+            Method for getting the 3D boundary curves of the environment.
+            </summary>
+            <returns>Returns the list of curves that the define the 3D boundary of the environment.</returns>
+        </member>
+        <member name="T:ABxM.Core.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Agent_Boid">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Agent_Cartesian">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Agent_Matrix">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Agent_Matrix_3d">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Agent_MeshFace">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Agent_NetworkNode">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Behavior_Boid_Alignment">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Behavior_Boid_Cohesion">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Behavior_Boid_Containment">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Behavior_Boid_Separation">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Environment_Matrix">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Environment_Matrix3d">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Environment_Mesh">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Environment_MultipleBrep">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Environment_NetworkNode">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Environment_SingleBrep">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.solver_silent">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.Solver_StepByStep">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.System_Boid">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.System_Cartesian">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.System_Matrix">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.System_Matrix___3d">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.System_MeshFace">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Properties.Resources.System_NetworkNode">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="T:ABxM.Core.NamespaceDoc">
+            <summary>
+            The Core namespace contains fundamental types that define the fundamental part of the Core engine.
+            </summary>
+        </member>
+        <member name="T:ABxM.Core.Solver">
+            <summary>
+            Executes the behaviours of all agents in the agent system
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Solver.AgentSystems">
+            <summary>
+            List of agent system.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Solver.IterationCount">
+            <summary>
+            Iterations counter.
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Solver._cancellationTokenSource">
+            <summary>
+            Cancellation Token Source, used to stop the solver mid iteration.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Solver.IsCancelled">
+            <summary>
+            Returns a boolean if the cancellation has been activated.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Solver.#ctor">
+            <summary>
+            Solver starting from a new list of agent systems.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Solver.#ctor(System.Collections.Generic.List{ABxM.Core.AgentSystem.AgentSystemBase})">
+            <summary>
+            Solver starting from an existing list of agent systems.
+            </summary>
+            <param name="agentSystems">The list of AgentSystems to solve.</param>
+        </member>
+        <member name="M:ABxM.Core.Solver.ExecuteSingleStep">
+            <summary>
+            Method for displaying every single step in the solution.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Solver.MultiThread_ExecuteSingleStep">
+            <summary>
+            Multi-threaded Method for displaying every single step in the solution.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Solver.Execute(System.Int32)">
+            <summary>
+            Method for "silently solving" the agent systems. Only the result is displayed after a given number of iterations.
+            </summary>
+            <param name="maxIterationCount">The number of maximum iterations.</param>
+        </member>
+        <member name="M:ABxM.Core.Solver.MultiThread_Execute(System.Int32)">
+            <summary>
+            Multi-threaded Method for "silently solving" the agent systems. Only the result is displayed after a given number of iterations.
+            </summary>
+            <param name="maxIterationCount">The number of maximum iterations.</param>
+        </member>
+        <member name="M:ABxM.Core.Solver.GetDisplayGeometries">
+            <summary>
+            Method for collecting the display geometries for all the agents in all agent systems
+            </summary>
+            <returns>Returns a list containing each AgentSystem's display geometries.</returns>
+        </member>
+        <member name="M:ABxM.Core.Solver.CancelExecution">
+            <summary>
+            Method to allow cancellation from an external code, eg from behaviours 
+            </summary>
+        </member>
+        <member name="T:ABxM.Core.Utilities.MouseTracker">
+            <summary>
+            The MouseTracker class to incorporate mouse events. 
+            </summary>
+        </member>
+        <member name="F:ABxM.Core.Utilities.MouseTracker.Instance">
+            <summary>
+            The field holding the internal instance of the MouseTracker.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Utilities.MouseTracker.MouseLine">
+            <summary>
+            Gets or sets the mouse line.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Utilities.MouseTracker.MousePixels">
+            <summary>
+            Gets the point defining the position of the mouse on the viewport.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Utilities.MouseTracker.MouseFraction">
+            <summary>
+            Gets the point defining the position of the mouse relative to the size of the viewport.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Utilities.MouseTracker.LeftMousePressed">
+            <summary>
+            Gets the boolean that specifies whether the left mouse button was pressed.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Utilities.MouseTracker.LeftMouseReleased">
+            <summary>
+            Gets the boolean that specifies whether the left mouse button was pressed.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Utilities.MouseTracker.RequireAltKey">
+            <summary>
+            Gets or sets the boolean that specifies whether the alt key is required to clear the mouse position.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Utilities.MouseTracker.Enable">
+            <summary>
+            Method for enabling the mouse tracker.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Utilities.MouseTracker.Disable">
+            <summary>
+            Method for disabling the mouse tracker.
+            </summary>
+        </member>
+        <member name="P:ABxM.Core.Utilities.MouseTracker.IsEnabled">
+            <summary>
+            The property that specifies whether the mouse tracker is enabled.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Utilities.MouseTracker.#ctor">
+            <summary>
+            Constructs a new mouse tracker.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Utilities.MouseTracker.OnMouseDown(Rhino.UI.MouseCallbackEventArgs)">
+            <summary>
+            Method for setting the mouse position on pressing the left mouse button.
+            </summary>
+            <param name="e">The mouse event.</param>
+        </member>
+        <member name="M:ABxM.Core.Utilities.MouseTracker.OnMouseUp(Rhino.UI.MouseCallbackEventArgs)">
+            <summary>
+            Method for setting the mouse position on releasing the left mouse button.
+            </summary>
+            <param name="e">The mouse event.</param>
+        </member>
+        <member name="M:ABxM.Core.Utilities.MouseTracker.OnMouseMove(Rhino.UI.MouseCallbackEventArgs)">
+            <summary>
+            Method for setting the mouse position on mouse movement.
+            </summary>
+            <param name="e">The mouse event.</param>
+        </member>
+        <member name="M:ABxM.Core.Utilities.MouseTracker.OnMouseLeave(Rhino.UI.MouseCallbackEventArgs)">
+            <summary>
+            Method for unsetting the mouse position on mouse leave.
+            </summary>
+            <param name="e">The mouse event.</param>
+        </member>
+        <member name="M:ABxM.Core.Utilities.MouseTracker.ClearMousePosition">
+            <summary>
+            Method for unsetting the mouse position.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Utilities.MouseTracker.UpdateMousePosition(Rhino.UI.MouseCallbackEventArgs)">
+            <summary>
+            Method for updating the mouse position.
+            </summary>
+            <param name="e">The mouse event.</param>
+        </member>
+        <member name="T:ABxM.Core.Utilities.NamespaceDoc">
+            <summary>
+            The Utilities namespace contains helper classes that can be accessed across namespaces.
+            </summary>
+        </member>
+        <member name="T:ABxM.Core.Utilities.Utils">
+            <summary>
+            The Utils class contains useful methods.
+            </summary>
+        </member>
+        <member name="M:ABxM.Core.Utilities.Utils.LimitVectorLength(Rhino.Geometry.Vector3d,System.Double)">
+            <summary>
+            Trims the vector length to a defined length.
+            </summary>
+            <param name="v">The vector to trim.</param>
+            <param name="maxLength">The double defining the maximum length of the vector.</param>
+            <returns>Returns the trimmed vector or the initial vector, if its length does not exceed the maximum length.</returns>
+        </member>
+        <member name="M:ABxM.Core.Utilities.Utils.FindThirdVertices(Rhino.Geometry.Mesh,System.Int32,System.Int32)">
+            <summary>
+            Finds the connected third vertices to two connected vertices.
+            </summary>
+            <param name="mesh">The mesh to find the vertices on.</param>
+            <param name="firstVertex">The integer defining the first connected vertex index.</param>
+            <param name="secondVertex">The integer defining the second connected vertex index.</param>
+            <returns>Returns a list containing the indices of the connected vertices.</returns>
+        </member>
+        <member name="M:ABxM.Core.Utilities.Utils.IsAcuteTriangle(Rhino.Geometry.Point3d,Rhino.Geometry.Point3d,Rhino.Geometry.Point3d)">
+            <summary>
+            Finds out if a triangle is acute or not.
+            </summary>
+            <param name="A">The point defining vertex A.</param>
+            <param name="B">The point defining vertex B.</param>
+            <param name="C">The point defining vertex C.</param>
+            <returns>Returns true if the triangle is acute, false if not.</returns>
+        </member>
+    </members>
+</doc>
