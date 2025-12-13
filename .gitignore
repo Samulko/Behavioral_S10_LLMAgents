@@ -29,5 +29,6 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Tutorial solution (keep student version only)
+# Tutorial notebooks (added during lesson)
 notebooks/react_agent_tutorial.ipynb
+notebooks/react_agent_student.ipynb
