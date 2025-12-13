@@ -12,10 +12,8 @@ dist/
 # Jupyter
 .ipynb_checkpoints/
 
-# IDE / Editor (keep MCP configs, exclude user settings)
+# IDE / Editor
 .idea/
-.vscode/settings.json
-.cursor/settings.json
 
 # Claude Code
 .claude/
