@@ -63,7 +63,7 @@ uv run python test_mcp_connection.py
 ```
 
 This checks:
-- MCP server connectivity (requires Rhino/Grasshopper running)
+- MCP server connectivity (requires Rhino/Grasshopper running - Open the examples/task_template.gh file and make sure the MCP server component is toggled on/enabled)
 - Required tools are available
 - Your Groq API key is valid
 
