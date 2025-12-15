@@ -67,7 +67,6 @@ This checks:
 - Required tools are available
 - Your Groq API key is valid
 
-**Note:** The MCP tests require Rhino/Grasshopper to be open with `examples/task_template.gh` loaded.
 
 ---
 
