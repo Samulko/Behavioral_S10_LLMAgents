@@ -30,17 +30,6 @@ This will:
 3. Navigate to **API Keys** and create a new key
 4. Copy your key
 
-#### Verify your API key works
-
-```bash
-curl -X POST "https://api.groq.com/openai/v1/chat/completions" -H "Authorization: Bearer YOUR_API_KEY_HERE" -H "Content-Type: application/json" -d "{\"model\": \"llama-3.3-70b-versatile\", \"messages\": [{\"role\": \"user\", \"content\": \"Say hello\"}], \"max_tokens\": 10}"
-```
-
-**Success looks like:**
-```json
-{"id":"chatcmpl-...","choices":[{"message":{"content":"Hello. How can I assist you today?"}}],...}
-```
-
 ### 3. Save your API Key
 
 Copy `.env.example` to `.env` and add your key:
