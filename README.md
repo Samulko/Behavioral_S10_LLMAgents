@@ -30,6 +30,8 @@ This will:
 3. Navigate to **API Keys** and create a new key
 4. Copy your key
 
+> **Note:** If you'd prefer not to create an account, no worries! An alternative API key will be provided during the session.
+
 ### 3. Save your API Key
 
 Copy `.env.example` to `.env` and add your key:
